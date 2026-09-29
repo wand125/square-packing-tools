@@ -11,10 +11,11 @@ What this repository adds is the machinery around his solver: moving a certifica
 larger `n` or a larger `L`, recovering budget when a rung stalls, and making each LP rung
 faster. Every certificate is still accepted only by his unchanged verifier (`solver/verify.cpp`).
 
-This first release covers two areas:
+It covers three areas:
 
 1. **Moving in `n` and `L`**: `transfer/`, `ladder/`
 2. **Speed**: `performance/`
+3. **Exact checks of point and threshold-charge certificates**: `general_pose_tree/`
 
 ## Layout
 
@@ -26,6 +27,7 @@ performance/   runtime/        working-row LP with basis reuse, per-phase timing
                screen_policy/  batch-16 counterexample screen, angle-parallel screen
                verifiers/      cached-axis variant of the verifier (search time only)
                point_verifier_lazy/  faster zmx2 for point certificates (patch on evand's verifier)
+general_pose_tree/  exact branch-and-bound checks for point / threshold-charge certificates (standard library only)
 tests/         smoke and end-to-end tests
 ```
 
@@ -105,9 +107,19 @@ interval arithmetic, the LP residual checks, or the independent proof.
 Each directory's README gives the exact conditions and the reported speed-ups. These are
 measurements from our runs, not guarantees.
 
+## Exact checks for point and threshold-charge certificates
+
+`general_pose_tree/` generalizes the branch trees and wall enclosures of our point-only
+`n = 21` verifier (published in square-packing-bounds) to any `n`, rational `L`, and measures
+made of weighted points plus k-of-m threshold features. It is pure Python with exact
+arithmetic. As a test, it independently rechecked all 12,028 per-row core scans of
+Kleddamag's `n = 11` certificate (`s(11) > 31/8`) and found identical minima. It rechecks the
+row scans only; the global counting argument is Kleddamag's. See `general_pose_tree/README.md`.
+Kleddamag's certificate is read from his repository and is not included here.
+
 ## What is a proof here
 
-Only the verifier's acceptance is a proof. That means `solver/certify.py` compiling and running
+For rectangle certificates, only the verifier's acceptance is a proof. That means `solver/certify.py` compiling and running
 `solver/verify.cpp`, byte-identical to tokoharu's (SHA-256 `a75140df…`, the verifier the
 published certificates were checked with).
 The LP, the screens and every speed-up only propose candidates.
