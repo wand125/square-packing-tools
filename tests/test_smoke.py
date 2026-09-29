@@ -73,11 +73,14 @@ def test_master_solves_one_lp():
 
 
 def test_l_cap_cli(tmp_path):
-    out = [json.loads(x) for x in run('transfer/l_cap.py', 29, 61, cwd=tmp_path).splitlines()]
+    out = [json.loads(x) for x in run('transfer/l_cap.py', 29, 61, 78, 83, cwd=tmp_path).splitlines()]
     alpha = 399908091 / 400000000
-    assert out[0]['alpha'] == '399908091/400000000'
+    assert out[0]['alpha'] == '399908091/400000000' and out[0]['factor'] == out[0]['alpha']
     assert out[0]['n'] == 29 and out[0]['L_cap'] == math.floor(alpha * out[0]['UB'] * 1000 - 1e-6) / 1000
     assert out[1]['L_cap'] < out[1]['UB']
+    # Integer UB (axis-parallel grid): B, not alpha.
+    assert out[2]['UB'] == 9 and out[2]['factor'] == '9977/10000' and out[2]['L_cap'] == 8.979
+    assert out[3]['L_cap'] == 9.632
 
 
 @pytest.mark.parametrize('target', ['28.9', '1', '1.5'])

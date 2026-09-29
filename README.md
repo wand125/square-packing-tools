@@ -75,13 +75,14 @@ recover budget, then climb).
 
 - `python transfer/next_step.py <certificate dir>` suggests the next `L` from the budget
   headroom a certified rung left. It is a heuristic, not a bound.
-- `python transfer/l_cap.py <n>` prints `L_cap(n) = α·UB(n)`, a **search ceiling (a guide, not
-  a proven bound)** above which a rectangle certificate for `n` should not be attempted. Here
-  `UB(n)` is the side of a known packing and `α = B(1 + D) = 399908091/400000000`, with
-  `B = 0.9977` the core side and `D = 83/40000` the verifier's net parameter. The simpler
-  `B·UB(n)` is valid only when the known packing's orientations lie on the verifier's 201-angle
-  net. `UB(n)` in `transfer/data/ub.json` is rounded for display, which is one more reason to
-  treat the result as a guide.
+- `python transfer/l_cap.py <n>` prints `L_cap(n)`, a **search ceiling (a guide, not a proven
+  bound)** above which a rectangle certificate for `n` should not be attempted. `UB(n)` is the
+  side of a known packing, `B = 0.9977` the core side and `D = 83/40000` the verifier's net
+  parameter. For a witness whose orientations lie on the verifier's 201-angle net (such as the
+  axis-parallel `k × k` grid behind an integer `UB(n) = k`), the ceiling is `B·UB(n)`. In
+  general it is `α·UB(n)` with `α = B(1 + D) = 399908091/400000000`. `UB(n)` in
+  `transfer/data/ub.json` is rounded for display, which is one more reason to treat the result
+  as a guide.
 
 `transfer/scale_and_verify.py` scales a running search's current candidate to the budget
 (`n - 1/100` by default; any target at or above `n` is refused) and sends it to the verifier, without disturbing the search. If the proof goes through,
