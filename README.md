@@ -82,7 +82,8 @@ recover budget, then climb).
   axis-parallel `k × k` grid behind an integer `UB(n) = k`), the ceiling is `B·UB(n)`. In
   general it is `α·UB(n)` with `α = B(1 + D) = 399908091/400000000`. `UB(n)` in
   `transfer/data/ub.json` is rounded for display, which is one more reason to treat the result
-  as a guide.
+  as a guide. Where its `ubExact` is an integer that differs from `ub`, that integer is only a
+  coarse upper bound `⌈√n⌉`, not the side of a known packing.
 
 `transfer/scale_and_verify.py` scales a running search's current candidate to the budget
 (`n - 1/100` by default; any target at or above `n` is refused) and sends it to the verifier, without disturbing the search. If the proof goes through,

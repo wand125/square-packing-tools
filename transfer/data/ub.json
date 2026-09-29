@@ -1,5 +1,5 @@
 {
- "_source": "Best known upper bounds UB(n): side of the smallest known square container for n unit squares. Copied from the project's lower-bound table (lb_rows.json, fields n/ub/ubExact/ubWho/ubYear) on 2026-09-29; attributions are as recorded there. Only 'ub' (float) is used by l_cap.py.",
+ "_source": "Best known upper bounds UB(n): side of the smallest known square container for n unit squares. Copied from the project's lower-bound table (lb_rows.json, fields n/ub/ubExact/ubWho/ubYear) on 2026-09-29; attributions are as recorded there. Only 'ub' (float) is used by l_cap.py. Where 'ubExact' is an integer that differs from 'ub' (n = 17, 28, 37, 39, 41, 51, 55, 68-71, 83, 87, 88), it is only a coarse integer upper bound ceil(sqrt(n)) recorded because the exact form of the best packing is not known; it is not the side of a known packing. l_cap.py treats such rows as non-grid (factor alpha).",
  "rows": [
   {
    "n": 1,
