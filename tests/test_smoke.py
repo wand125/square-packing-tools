@@ -74,8 +74,21 @@ def test_master_solves_one_lp():
 
 def test_l_cap_cli(tmp_path):
     out = [json.loads(x) for x in run('transfer/l_cap.py', 29, 61, cwd=tmp_path).splitlines()]
-    assert out[0]['n'] == 29 and out[0]['L_cap'] == math.floor(.9977 * out[0]['UB'] * 1000 - 1e-6) / 1000
+    alpha = 399908091 / 400000000
+    assert out[0]['alpha'] == '399908091/400000000'
+    assert out[0]['n'] == 29 and out[0]['L_cap'] == math.floor(alpha * out[0]['UB'] * 1000 - 1e-6) / 1000
     assert out[1]['L_cap'] < out[1]['UB']
+
+
+@pytest.mark.parametrize('target', ['28.9', '1', '1.5'])
+def test_scale_and_verify_refuses_mass_at_or_above_n(tmp_path, target):
+    # n = 1 with the old default target (28.9) used to print a certificate claim.
+    (tmp_path / 's').mkdir()
+    (tmp_path / 's/candidate.json').write_text(json.dumps(dict(n=1, L='1.5', weights=['0.5'], rectangles=[[0, 0, 1, 1]])))
+    r = subprocess.run([sys.executable, str(REPO / 'transfer/scale_and_verify.py'), 's', 'out', '--target', target],
+                       cwd=tmp_path, capture_output=True, text=True)
+    assert r.returncode != 0 and 'below n' in r.stderr and 'certificate for' not in r.stdout
+    assert not (tmp_path / 'out').exists()
 
 
 def test_next_step_cli(tmp_path):
