@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+# run outputs
+captures/
+results/
+rungs/
+performance_metrics/
+witness-archive/
+*.npz
+# verifier build products
+solver/verify
+solver/verify.exe
+performance/verifiers/*.o
+performance/verifiers/axis_cached
+performance/verifiers/canonical
+zmx2-lazy

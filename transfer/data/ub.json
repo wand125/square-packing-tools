@@ -1,0 +1,705 @@
+{
+ "_source": "Best known upper bounds UB(n): side of the smallest known square container for n unit squares. Copied from the project's lower-bound table (lb_rows.json, fields n/ub/ubExact/ubWho/ubYear) on 2026-09-29; attributions are as recorded there. Only 'ub' (float) is used by l_cap.py.",
+ "rows": [
+  {
+   "n": 1,
+   "ub": 1.0,
+   "ubExact": "1",
+   "ubWho": "Frits Göbel",
+   "ubYear": 1979
+  },
+  {
+   "n": 2,
+   "ub": 2.0,
+   "ubExact": "2",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 3,
+   "ub": 2.0,
+   "ubExact": "2",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 4,
+   "ub": 2.0,
+   "ubExact": "2",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 5,
+   "ub": 2.707107,
+   "ubExact": "2 + (1/2)sqrt(2)",
+   "ubWho": "Frits Göbel",
+   "ubYear": 1979
+  },
+  {
+   "n": 6,
+   "ub": 3.0,
+   "ubExact": "3",
+   "ubWho": "Erich Friedman",
+   "ubYear": 1999
+  },
+  {
+   "n": 7,
+   "ub": 3.0,
+   "ubExact": "3",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 8,
+   "ub": 3.0,
+   "ubExact": "3",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 9,
+   "ub": 3.0,
+   "ubExact": "3",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 10,
+   "ub": 3.707107,
+   "ubExact": "3 + (1/2)sqrt(2)",
+   "ubWho": "Frits Göbel",
+   "ubYear": 1979
+  },
+  {
+   "n": 11,
+   "ub": 3.877084,
+   "ubExact": "root(P_trump11, 3.87708359002281417730789706010096)",
+   "ubWho": "Walter Trump",
+   "ubYear": 1979
+  },
+  {
+   "n": 12,
+   "ub": 4.0,
+   "ubExact": "4",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 13,
+   "ub": 4.0,
+   "ubExact": "4",
+   "ubWho": "Wolfram Bentz",
+   "ubYear": 2009
+  },
+  {
+   "n": 14,
+   "ub": 4.0,
+   "ubExact": "4",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 15,
+   "ub": 4.0,
+   "ubExact": "4",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 16,
+   "ub": 4.0,
+   "ubExact": "4",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 17,
+   "ub": 4.67553,
+   "ubExact": "5",
+   "ubWho": "John Bidwell",
+   "ubYear": 1998
+  },
+  {
+   "n": 18,
+   "ub": 4.822876,
+   "ubExact": "(7/2) + (1/2)sqrt(7)",
+   "ubWho": "Pertti Hämäläinen",
+   "ubYear": 1980
+  },
+  {
+   "n": 19,
+   "ub": 4.885618,
+   "ubExact": "3 + (4/3)sqrt(2)",
+   "ubWho": "Robert Wainwright",
+   "ubYear": 1979
+  },
+  {
+   "n": 20,
+   "ub": 5.0,
+   "ubExact": "5",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 21,
+   "ub": 5.0,
+   "ubExact": "5",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 22,
+   "ub": 5.0,
+   "ubExact": "5",
+   "ubWho": "Wolfram Bentz",
+   "ubYear": 2018
+  },
+  {
+   "n": 23,
+   "ub": 5.0,
+   "ubExact": "5",
+   "ubWho": "Hiroshi Nagamochi",
+   "ubYear": 2005
+  },
+  {
+   "n": 24,
+   "ub": 5.0,
+   "ubExact": "5",
+   "ubWho": "Erich Friedman",
+   "ubYear": 1999
+  },
+  {
+   "n": 25,
+   "ub": 5.0,
+   "ubExact": "5",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 26,
+   "ub": 5.62132,
+   "ubExact": "(7/2) + (3/2)sqrt(2)",
+   "ubWho": "Erich Friedman",
+   "ubYear": 1997
+  },
+  {
+   "n": 27,
+   "ub": 5.707107,
+   "ubExact": "5 + (1/2)sqrt(2)",
+   "ubWho": "Frits Göbel",
+   "ubYear": 1979
+  },
+  {
+   "n": 28,
+   "ub": 5.824445,
+   "ubExact": "6",
+   "ubWho": "David Ellsworth",
+   "ubYear": 2025
+  },
+  {
+   "n": 29,
+   "ub": 5.933833,
+   "ubExact": "296691673133846459487189947549/50000000000000000000000000000",
+   "ubWho": "Thomas Schadt",
+   "ubYear": 2025
+  },
+  {
+   "n": 30,
+   "ub": 6.0,
+   "ubExact": "6",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 31,
+   "ub": 6.0,
+   "ubExact": "6",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 32,
+   "ub": 6.0,
+   "ubExact": "6",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 33,
+   "ub": 6.0,
+   "ubExact": "6",
+   "ubWho": "Wolfram Bentz",
+   "ubYear": 2018
+  },
+  {
+   "n": 34,
+   "ub": 6.0,
+   "ubExact": "6",
+   "ubWho": "Hiroshi Nagamochi",
+   "ubYear": 2005
+  },
+  {
+   "n": 35,
+   "ub": 6.0,
+   "ubExact": "6",
+   "ubWho": "Erich Friedman",
+   "ubYear": 1999
+  },
+  {
+   "n": 36,
+   "ub": 6.0,
+   "ubExact": "6",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 37,
+   "ub": 6.59862,
+   "ubExact": "7",
+   "ubWho": "David W. Cantrell",
+   "ubYear": 2002
+  },
+  {
+   "n": 38,
+   "ub": 6.707107,
+   "ubExact": "6 + (1/2)sqrt(2)",
+   "ubWho": "Frits Göbel",
+   "ubYear": 1979
+  },
+  {
+   "n": 39,
+   "ub": 6.810722,
+   "ubExact": "7",
+   "ubWho": "Thomas Schadt",
+   "ubYear": 2026
+  },
+  {
+   "n": 40,
+   "ub": 6.828427,
+   "ubExact": "4 + 2 sqrt(2)",
+   "ubWho": "Frits Göbel",
+   "ubYear": 1979
+  },
+  {
+   "n": 41,
+   "ub": 6.926693,
+   "ubExact": "7",
+   "ubWho": "Thomas Schadt",
+   "ubYear": 2025
+  },
+  {
+   "n": 42,
+   "ub": 7.0,
+   "ubExact": "7",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 43,
+   "ub": 7.0,
+   "ubExact": "7",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 44,
+   "ub": 7.0,
+   "ubExact": "7",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 45,
+   "ub": 7.0,
+   "ubExact": "7",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 46,
+   "ub": 7.0,
+   "ubExact": "7",
+   "ubWho": "Wolfram Bentz",
+   "ubYear": 2009
+  },
+  {
+   "n": 47,
+   "ub": 7.0,
+   "ubExact": "7",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 48,
+   "ub": 7.0,
+   "ubExact": "7",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 49,
+   "ub": 7.0,
+   "ubExact": "7",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 50,
+   "ub": 7.571429,
+   "ubExact": "7 + (4/7)",
+   "ubWho": "Thomas Schadt",
+   "ubYear": 2025
+  },
+  {
+   "n": 51,
+   "ub": 7.700799,
+   "ubExact": "8",
+   "ubWho": "Thomas Schadt",
+   "ubYear": 2026
+  },
+  {
+   "n": 52,
+   "ub": 7.707107,
+   "ubExact": "7 + (1/2)sqrt(2)",
+   "ubWho": "Frits Göbel",
+   "ubYear": 1979
+  },
+  {
+   "n": 53,
+   "ub": 7.822876,
+   "ubExact": "(13/2) + (1/2)sqrt(7)",
+   "ubWho": "David W. Cantrell",
+   "ubYear": 2002
+  },
+  {
+   "n": 54,
+   "ub": 7.846667,
+   "ubExact": "7 - (1/2)sqrt(2) + sqrt(1 + sqrt(2))",
+   "ubWho": "David W. Cantrell",
+   "ubYear": 2005
+  },
+  {
+   "n": 55,
+   "ub": 7.945771,
+   "ubExact": "8",
+   "ubWho": "Thomas Schadt",
+   "ubYear": 2026
+  },
+  {
+   "n": 56,
+   "ub": 8.0,
+   "ubExact": "8",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 57,
+   "ub": 8.0,
+   "ubExact": "8",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 58,
+   "ub": 8.0,
+   "ubExact": "8",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 59,
+   "ub": 8.0,
+   "ubExact": "8",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 60,
+   "ub": 8.0,
+   "ubExact": "8",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 61,
+   "ub": 8.0,
+   "ubExact": "8",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 62,
+   "ub": 8.0,
+   "ubExact": "8",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 63,
+   "ub": 8.0,
+   "ubExact": "8",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 64,
+   "ub": 8.0,
+   "ubExact": "8",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 65,
+   "ub": 8.535534,
+   "ubExact": "5 + (5/2)sqrt(2)",
+   "ubWho": "Frits Göbel",
+   "ubYear": 1979
+  },
+  {
+   "n": 66,
+   "ub": 8.656854,
+   "ubExact": "3 + 4 sqrt(2)",
+   "ubWho": "Evert Stenlund",
+   "ubYear": 1980
+  },
+  {
+   "n": 67,
+   "ub": 8.707107,
+   "ubExact": "8 + (1/2)sqrt(2)",
+   "ubWho": "Evert Stenlund",
+   "ubYear": 1980
+  },
+  {
+   "n": 68,
+   "ub": 8.798795237223,
+   "ubExact": "9",
+   "ubWho": "franciscouzo",
+   "ubYear": 2026
+  },
+  {
+   "n": 69,
+   "ub": 8.827206,
+   "ubExact": "9",
+   "ubWho": "UnitSquare Project",
+   "ubYear": 2026
+  },
+  {
+   "n": 70,
+   "ub": 8.881667,
+   "ubExact": "9",
+   "ubWho": "Joe DeVincentis",
+   "ubYear": 2014
+  },
+  {
+   "n": 71,
+   "ub": 8.944072,
+   "ubExact": "9",
+   "ubWho": "Thomas Schadt",
+   "ubYear": 2025
+  },
+  {
+   "n": 72,
+   "ub": 9.0,
+   "ubExact": "9",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 73,
+   "ub": 9.0,
+   "ubExact": "9",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 74,
+   "ub": 9.0,
+   "ubExact": "9",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 75,
+   "ub": 9.0,
+   "ubExact": "9",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 76,
+   "ub": 9.0,
+   "ubExact": "9",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 77,
+   "ub": 9.0,
+   "ubExact": "9",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 78,
+   "ub": 9.0,
+   "ubExact": "9",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 79,
+   "ub": 9.0,
+   "ubExact": "9",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 80,
+   "ub": 9.0,
+   "ubExact": "9",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 81,
+   "ub": 9.0,
+   "ubExact": "9",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 82,
+   "ub": 9.535534,
+   "ubExact": "6 + (5/2)sqrt(2)",
+   "ubWho": "Frits Göbel",
+   "ubYear": 1979
+  },
+  {
+   "n": 83,
+   "ub": 9.634826,
+   "ubExact": "10",
+   "ubWho": "Károly Hajba",
+   "ubYear": 2024
+  },
+  {
+   "n": 84,
+   "ub": 9.707107,
+   "ubExact": "9 + (1/2)sqrt(2)",
+   "ubWho": "Evert Stenlund",
+   "ubYear": 1980
+  },
+  {
+   "n": 85,
+   "ub": 9.742641,
+   "ubExact": "(11/2) + 3 sqrt(2)",
+   "ubWho": "Erich Friedman",
+   "ubYear": 1997
+  },
+  {
+   "n": 86,
+   "ub": 9.822876,
+   "ubExact": "(17/2) + (1/2)sqrt(7)",
+   "ubWho": "Erich Friedman",
+   "ubYear": 1997
+  },
+  {
+   "n": 87,
+   "ub": 9.838817,
+   "ubExact": "10",
+   "ubWho": "David Ellsworth",
+   "ubYear": 2024
+  },
+  {
+   "n": 88,
+   "ub": 9.888153,
+   "ubExact": "10",
+   "ubWho": "David Ellsworth",
+   "ubYear": 2024
+  },
+  {
+   "n": 89,
+   "ub": 9.949747,
+   "ubExact": "5 + (7/2)sqrt(2)",
+   "ubWho": "Evert Stenlund",
+   "ubYear": 1980
+  },
+  {
+   "n": 90,
+   "ub": 10.0,
+   "ubExact": "10",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 91,
+   "ub": 10.0,
+   "ubExact": "10",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 92,
+   "ub": 10.0,
+   "ubExact": "10",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 93,
+   "ub": 10.0,
+   "ubExact": "10",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 94,
+   "ub": 10.0,
+   "ubExact": "10",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 95,
+   "ub": 10.0,
+   "ubExact": "10",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 96,
+   "ub": 10.0,
+   "ubExact": "10",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 97,
+   "ub": 10.0,
+   "ubExact": "10",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 98,
+   "ub": 10.0,
+   "ubExact": "10",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 99,
+   "ub": 10.0,
+   "ubExact": "10",
+   "ubWho": null,
+   "ubYear": null
+  },
+  {
+   "n": 100,
+   "ub": 10.0,
+   "ubExact": "10",
+   "ubWho": null,
+   "ubYear": null
+  }
+ ]
+}

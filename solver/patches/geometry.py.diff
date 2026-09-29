@@ -1,0 +1,11 @@
+--- upstream/geometry.py
++++ solver/geometry.py
+@@ -36,7 +36,7 @@
+         coords = np.unique(self.full[:, [0, 2]].ravel())
+         centers = np.r_[self.L/2, self.L-self.B/2, coords-self.B/2, coords+self.B/2]
+         centers = centers[(centers >= self.L/2) & (centers <= self.L-self.B/2)]
+-        p = np.unique((centers-self.L/2)/((self.L-self.B)/2))
++        p = np.unique(np.clip((centers-self.L/2)/((self.L-self.B)/2),0.,1.))
+         xx, yy = np.meshgrid(p, p, indexing='ij')
+         return np.c_[xx.ravel(), yy.ravel(), np.zeros(xx.size)]
+ 

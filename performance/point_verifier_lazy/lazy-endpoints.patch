@@ -1,0 +1,44 @@
+--- upstream/zmx2.rs
++++ research/zmx2-lazy.rs
+@@ -1038,13 +1038,13 @@
+     // active lines: a square meets a line only if |c_x - l| <= w/2 <= 0.7072
+     let xlo = (fb.xn[0] as f64) / (fb.xd as f64) - 0.75;
+     let xhi = (fb.xn[1] as f64) / (fb.xd as f64) + 0.75;
+-    let mut act: Vec<(usize, Ends, Vec<Atom>)> = Vec::new();
++    let mut act: Vec<(usize, std::cell::OnceCell<Ends>, Vec<Atom>)> = Vec::new();
+     for (i, l) in lines.iter().enumerate() {
+         let p = l.pos as f64 / dd as f64;
+         if p < xlo || p > xhi {
+             continue;
+         }
+-        act.push((i, line_ends(ctx, fb, l.pos), line_atoms(ctx, fb, l)));
++        act.push((i, std::cell::OnceCell::new(), line_atoms(ctx, fb, l)));
+     }
+     let n = act.len();
+     if n == 0 {
+@@ -1063,9 +1063,15 @@
+         let mut best = vec![0 as I; m + 1]; // best[i] = best over the first i lines of the chain
+         for i in 0..m {
+             let (li, ei, ai) = &act[ch[i]];
+-            let sb = single_bound(&lines[*li], ei, ai);
++            // Point-only singleton bounds do not depend on chord endpoints.
++            let sb = if lines[*li].dens.iter().all(|&d| d == 0) {
++                ai.iter().filter(|a| a.c.iter().all(|&c| c)).map(|a| a.w).sum::<I>()
++            } else {
++                single_bound(&lines[*li], ei.get_or_init(|| line_ends(ctx, fb, lines[*li].pos)), ai)
++            };
+             let mut b = best[i] + sb;
+             if debug {
++                let ei = ei.get_or_init(|| line_ends(ctx, fb, lines[*li].pos));
+                 let gf = ctx.g as f64;
+                 eprintln!(
+                     "  line pos {:.4}: zeta [{:.6},{:.6}] h1lo {:.6} l2hi {:.6} h2lo {:.6} atoms {} single {:.6}",
+@@ -1082,6 +1088,8 @@
+             if i >= 1 {
+                 let (lj, ej, aj) = &act[ch[i - 1]];
+                 if lines[*li].pos - lines[*lj].pos == dd as i64 {
++                    let ej = ej.get_or_init(|| line_ends(ctx, fb, lines[*lj].pos));
++                    let ei = ei.get_or_init(|| line_ends(ctx, fb, lines[*li].pos));
+                     let pb = pair_bound(&lines[*lj], ej, aj, &lines[*li], ei, ai, fb.u0g);
+                     if debug {
+                         eprintln!(
