@@ -1,0 +1,34 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: pip install -r requirements.txt
+      - name: Check out square-packing-bounds (for the n = 21 separator comparison)
+        uses: actions/checkout@v4
+        with:
+          repository: wand125/square-packing-bounds
+          path: square-packing-bounds
+      - name: Tests
+        env:
+          SP_BOUNDS_REPO: ${{ github.workspace }}/square-packing-bounds
+        run: python -m pytest -q
+      - name: End-to-end ladder (n = 3 -> 4, budget recovery)
+        env:
+          SP_SLOW_TESTS: "1"
+        run: python -m pytest -q tests

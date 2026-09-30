@@ -15,3 +15,4 @@ performance/verifiers/*.o
 performance/verifiers/axis_cached
 performance/verifiers/canonical
 zmx2-lazy
+square-packing-bounds/
