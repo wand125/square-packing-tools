@@ -30,6 +30,7 @@ performance/   runtime/        working-row LP with basis reuse, per-phase timing
 general_pose_tree/  exact branch-and-bound checks for point / threshold-charge certificates (standard library only)
 fine_net_verifier/  independent check of fine-net density certificates: jlevy/squares' sqverify_fast reading a declared angle net
 fine_net_witnesses/ repair aid only (not a verifier): the same code returning many separated low-coverage poses per angle
+n17_bb_verifier/    exact Rust verifier for jlevy/squares' n = 17 sub-pattern branch-and-bound certificates (schemas v1 and v3)
 tests/         smoke and end-to-end tests
 ```
 
@@ -139,7 +140,10 @@ square-packing-density-bounds (MIT). The rectangle-density method, the LP solver
 verifier are tokoharu's; `solver/PROVENANCE.md` lists file by file what is his, what we
 modified, and what we added. `fine_net_verifier/` and `fine_net_witnesses/` contain Joshua Levy's
 `sqverify_fast` from jlevy/squares (code MIT, documentation CC BY 4.0) with the changes listed in
-their PROVENANCE.md; see THIRD_PARTY_NOTICES.md.
+their PROVENANCE.md; see THIRD_PARTY_NOTICES.md. `n17_bb_verifier/` is our own second implementation of
+the checks of the squares project's standing n = 17 branch-and-bound verifier, written from its
+specification; its test cover and small certificate were exported from jlevy/squares (see
+`n17_bb_verifier/README.md` and THIRD_PARTY_NOTICES.md).
 
 ## License
 

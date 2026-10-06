@@ -72,6 +72,11 @@ is under Creative Commons Attribution 4.0 International
 (https://github.com/jlevy/squares)"; our changes to `README.md` and `SOUNDNESS.md` are
 listed in PROVENANCE.md.
 
+`n17_bb_verifier/tests/cells.json` (the capacity-one cover), `n17_bb_verifier/tests/fixtures/small-certificate`
+(written by the project's branch-and-bound pilot) and the `mutated-*` copies derived from it come from
+<https://github.com/jlevy/squares> and are used under the same MIT License below. The verifier's code in
+`n17_bb_verifier/` is ours (MIT, `n17_bb_verifier/LICENSE`).
+
 ```
 MIT License
 

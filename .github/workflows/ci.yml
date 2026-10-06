@@ -32,3 +32,21 @@ jobs:
         env:
           SP_SLOW_TESTS: "1"
         run: python -m pytest -q tests
+
+  n17-bb-verifier:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: n17_bb_verifier
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y libgmp-dev m4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.98.0
+          components: clippy, rustfmt
+      - run: cargo fmt --check
+      - run: cargo clippy --locked --all-targets
+      - run: cargo test --locked
+      - run: cargo build --locked --release
+      - run: ./target/release/n17bb-verify tests/fixtures/small-certificate --threads 2 --output receipt.json

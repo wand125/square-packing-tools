@@ -1,0 +1,2 @@
+Synthetic v3 regression certificate.
+manifest: fee8c2c701498d17275a1bb74034483157f7a56355331f24e261f7785ccffc9d
