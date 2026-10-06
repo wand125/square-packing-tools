@@ -28,6 +28,8 @@ performance/   runtime/        working-row LP with basis reuse, per-phase timing
                verifiers/      cached-axis variant of the verifier (search time only)
                point_verifier_lazy/  faster zmx2 for point certificates (patch on evand's verifier)
 general_pose_tree/  exact branch-and-bound checks for point / threshold-charge certificates (standard library only)
+fine_net_verifier/  independent check of fine-net density certificates: jlevy/squares' sqverify_fast reading a declared angle net
+fine_net_witnesses/ repair aid only (not a verifier): the same code returning many separated low-coverage poses per angle
 tests/         smoke and end-to-end tests
 ```
 
@@ -135,7 +137,9 @@ Developed by wand125 with OpenAI Codex (rectangle ladder, working LP, performanc
 Anthropic Claude (orchestration and job tooling), on top of tokoharu's
 square-packing-density-bounds (MIT). The rectangle-density method, the LP solver and the
 verifier are tokoharu's; `solver/PROVENANCE.md` lists file by file what is his, what we
-modified, and what we added.
+modified, and what we added. `fine_net_verifier/` and `fine_net_witnesses/` contain Joshua Levy's
+`sqverify_fast` from jlevy/squares (code MIT, documentation CC BY 4.0) with the changes listed in
+their PROVENANCE.md; see THIRD_PARTY_NOTICES.md.
 
 ## License
 

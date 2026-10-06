@@ -1,0 +1,365 @@
+diff --git a/packing/sqverify_fast/README.md b/packing/sqverify_fast/README.md
+index d18f756c6..3f9b25bb7 100644
+--- a/packing/sqverify_fast/README.md
++++ b/packing/sqverify_fast/README.md
+@@ -2,7 +2,7 @@
+ 
+ A clean-room verifier for measure-capture lower-bound certificates: given a nonnegative
+ measure on $[0, L]^2$ of mass below $n$, it checks that every shrunk square of side $B$,
+-at each of the 201 net directions and every centre, captures at least the threshold,
++at each net direction (201 by default) and every centre, captures at least the threshold,
+ which proves $s(n) \ge L$. It is lane W2 of `think-gpe0`, written without reading the
+ authors’ checkers ([INDEPENDENCE.md](INDEPENDENCE.md)), with every lemma it relies on
+ proved in [SOUNDNESS.md](SOUNDNESS.md).
+@@ -27,7 +27,10 @@ target/release/sqverify-fast --candidate PATH.json.gz --n N [--side P/Q] \
+ Standard output is one JSON receipt per direction and a summary line; the exit status is
+ 0 only when every requested direction is verified (`VERIFIED` for the whole net,
+ `PARTIAL` for a subset), 1 when one is refused, and 2 on an admission refusal.
+-The default threshold is the certificate’s declared one, else 1. `--confirm` evaluates a
++The default threshold is the certificate’s declared one, else 1.
++A format M candidate may declare a finer uniform net as `proof_net: {"step": "1/1001",
++"last": 415}`; admission checks the net premises for it (SOUNDNESS.md, Formats M and
++L). `--confirm` evaluates a
+ refusal’s witness in exact rationals.
+ `--probe r,x,y[,dx,dy]` prints the certified centre (and box) bound and the
+ counterexample estimate beside the exact capture, for differential tests.
+diff --git a/packing/sqverify_fast/SOUNDNESS.md b/packing/sqverify_fast/SOUNDNESS.md
+index cadf59b63..a8238d7ee 100644
+--- a/packing/sqverify_fast/SOUNDNESS.md
++++ b/packing/sqverify_fast/SOUNDNESS.md
+@@ -268,6 +268,13 @@ segment of length zero, a nonempty format M `points` list, a format L `net` othe
+ step $83/40000$ and last index $200$, certificate metadata that changes the net of
+ either format (finding TI-3), format M’s premise $B(1 + D/(1 - D^2/4)) < 1$ failing
+ (N3), and a `total_mass` other than the exact sum.
++A format M candidate may declare its own uniform net as `proof_net: {step, last}`, with
++$D$ = `step` and $N_\theta$ = `last` + 1; without it the net is $83/40000$ and $201$.
++The declaration is part of the candidate, not metadata, so TI-3 is unchanged, and a
++candidate that carries both is refused.
++Lemmas N1 to N3, D and F3 are stated for a general $D$, and admission checks each of
++their premises for the declared net exactly as for the default one: $B(1 + D) < 1$, the
++tangent form above, $(1 + (N_\theta - 1) D)^2 > 2$ and $(N_\theta - 1) D \le 1/2$.
+ Every row is an orbit representative whose eight $D_4$ images carry an eighth of its
+ mass each; coincident images are merged by exact key (a segment and its reverse are one
+ key), and the merged total must equal $M$.
+@@ -440,6 +447,10 @@ of the 3 October soundness review, whose reproducers are in `tests/adversarial.r
+   with a second member or trailing bytes is refused; format L and M nets cannot be
+   changed by metadata; format M’s tangent-form premise refuses a $B$ between the two
+   limits, which format T admits.
++- `tests/adversarial.rs`, for the declared net: a format M `proof_net` with step
++  $1/1001$ and 416 directions is admitted with the per-bin domain it implies; a declared
++  net failing $B(1 + D) < 1$, the endpoint or F3 is refused, as is a malformed
++  declaration, one beside net metadata, and one on another format.
+ - `interval::tests::nan_is_never_dropped`: every interval primitive keeps a `NaN`
+   endpoint, and an overflowing directed step is `NaN`.
+ - `rotated_tests::oracle_counts_closed_intersections`: the oracle counts a point on the
+diff --git a/packing/sqverify_fast/src/certificate.rs b/packing/sqverify_fast/src/certificate.rs
+index 657ef08f9..1bbefbd87 100644
+--- a/packing/sqverify_fast/src/certificate.rs
++++ b/packing/sqverify_fast/src/certificate.rs
+@@ -554,6 +554,32 @@ pub fn admit(
+             }
+         }
+     }
++    // A format M candidate may declare its own uniform net as `proof_net:
++    // {step, last}`, meaning t_r = r * step for r = 0..=last. The net is then
++    // part of the candidate (its digest covers it), not metadata, so finding
++    // TI-3 still holds: metadata never changes a net. Lemmas N1-N3 and D are
++    // written for a general step D, and admission below checks B (1 + D) < 1,
++    // the per-bin tangent form, the endpoint and lemma F3's last <= 1/2.
++    let mut declared_net = false;
++    if let Some(net) = object.get("proof_net") {
++        let Value::Object(net) = net else {
++            return refuse("proof_net must be an object");
++        };
++        if net.len() != 2 || !net.contains_key("step") || !net.contains_key("last") {
++            return refuse("proof_net must have exactly the fields step and last");
++        }
++        if object.get("certificate").is_some() {
++            return refuse("proof_net and certificate metadata may not both set the net");
++        }
++        step = rational_of(&net["step"], "proof_net.step")?;
++        let last = net["last"]
++            .as_u64()
++            .and_then(|l| u32::try_from(l).ok())
++            .and_then(|l| l.checked_add(1))
++            .ok_or(AdmissionError("bad proof_net.last".into()))?;
++        angle_count = last;
++        declared_net = true;
++    }
+     let zero = BigRational::zero();
+     let one = ratio(1, 1);
+     if !(side.is_positive() && side <= ratio(MAX_SIDE, 1)) {
+@@ -582,8 +608,12 @@ pub fn admit(
+     }
+ 
+     let (format, domain, listed) = sources(object)?;
+-    // Formats M and L fix the net; metadata may restate it but never change it.
+-    if format != "T" && (step != ratio(83, 40_000) || angle_count != 201) {
++    // Formats M and L fix the net unless a format M candidate declares
++    // `proof_net`; metadata may restate the fixed net but never change it.
++    if declared_net && format != "M" {
++        return refuse("proof_net is accepted only for format M");
++    }
++    if format != "T" && !declared_net && (step != ratio(83, 40_000) || angle_count != 201) {
+         return refuse(format!(
+             "format {format}'s net is step 83/40000 with 201 directions; certificate \
+              metadata may not change it"
+diff --git a/packing/sqverify_fast/src/lib.rs b/packing/sqverify_fast/src/lib.rs
+index 96c5566ed..98158f856 100644
+--- a/packing/sqverify_fast/src/lib.rs
++++ b/packing/sqverify_fast/src/lib.rs
+@@ -173,6 +173,26 @@ fn run_direction_inner(
+             }
+         }
+     }
++    if result.witnesses.len() > 1 || limits.max_witnesses > 1 {
++        // A repair aid: every collected candidate, each with its exact capture
++        // at the box centre when confirming.
++        let (c, s) = direction(&cert.step, index);
++        let list: Vec<Value> = result
++            .witnesses
++            .iter()
++            .map(|&(x, y, value, dx, dy)| {
++                let mut w =
++                    json!({"x": x, "y": y, "dx": dx, "dy": dy, "centre_lower_bound": value});
++                if confirm {
++                    let exact = crate::oracle::coverage(cert, &of_f64(x), &of_f64(y), &c, &s);
++                    w["exact_coverage"] = json!(exact.to_string());
++                    w["exact_below_threshold"] = json!(&exact < threshold);
++                }
++                w
++            })
++            .collect();
++        receipt["witnesses"] = json!(list);
++    }
+     Ok(DirectionReport {
+         index,
+         verified: result.verdict == Verdict::Verified,
+diff --git a/packing/sqverify_fast/src/main.rs b/packing/sqverify_fast/src/main.rs
+index 0f64e6d39..2b952a8b0 100644
+--- a/packing/sqverify_fast/src/main.rs
++++ b/packing/sqverify_fast/src/main.rs
+@@ -4,6 +4,7 @@
+ //! sqverify-fast --candidate PATH --n N [--side P/Q] [--directions SPEC]
+ //!               [--threshold P/Q] [--threads K] [--max-nodes N] [--max-depth D]
+ //!               [--receipts DIR] [--confirm]
++//!               [--max-witnesses K] [--witness-separation S]
+ //! ```
+ //!
+ //! `SPEC` is `all` (the default), a range `a-b`, or a comma list. Standard
+@@ -51,6 +52,8 @@ fn parse_args() -> Result<Options, String> {
+             max_depth: 60,
+             audit_every: 1024,
+             inject_fault_at: None,
++            max_witnesses: 1,
++            witness_separation: 0.0,
+         },
+         receipts: None,
+         confirm: false,
+@@ -91,6 +94,16 @@ fn parse_args() -> Result<Options, String> {
+                         .map_err(|_| "--inject-fault-at-node must be an integer")?,
+                 );
+             }
++            "--max-witnesses" => {
++                options.limits.max_witnesses = value()?
++                    .parse()
++                    .map_err(|_| "--max-witnesses must be an integer")?;
++            }
++            "--witness-separation" => {
++                options.limits.witness_separation = value()?
++                    .parse()
++                    .map_err(|_| "--witness-separation must be a number")?;
++            }
+             "--receipts" => options.receipts = Some(PathBuf::from(value()?)),
+             "--confirm" => options.confirm = true,
+             "--probe" => options.probe = Some(value()?),
+diff --git a/packing/sqverify_fast/src/rotated.rs b/packing/sqverify_fast/src/rotated.rs
+index 7fd03b33e..d482ef0b0 100644
+--- a/packing/sqverify_fast/src/rotated.rs
++++ b/packing/sqverify_fast/src/rotated.rs
+@@ -43,6 +43,12 @@ pub struct Limits {
+     /// A control hook: at this box (1-based), classify the first boundary
+     /// rectangle as inside. Never set outside a control run.
+     pub inject_fault_at: Option<u64>,
++    /// Counterexample candidates to collect before stopping (1: stop at the first,
++    /// the verifier's behaviour). More than one is a search aid for repairing a
++    /// candidate: the search drops each refused box and goes on elsewhere.
++    pub max_witnesses: u32,
++    /// Least distance between the centres of two collected candidates.
++    pub witness_separation: f64,
+ }
+ 
+ /// The verdict of one direction.
+@@ -98,6 +104,8 @@ pub struct DirectionResult {
+     /// For a non-verified direction, the box centre that stopped the search.
+     /// `(x, y, centre lower bound, dx, dy)` of that box.
+     pub witness: Option<(f64, f64, f64, f64, f64)>,
++    /// With `max_witnesses > 1`, every collected candidate, in the order found.
++    pub witnesses: Vec<(f64, f64, f64, f64, f64)>,
+     /// Wall seconds of this direction's search.
+     pub seconds: f64,
+     /// Mean number of boundary rectangles per evaluated box.
+@@ -809,6 +817,7 @@ pub fn verify_direction(
+     // counterexample elsewhere is still found, and the first is reported.
+     let mut deep_boxes = 0u64;
+     let mut deep_witness = None;
++    let mut witnesses: Vec<(f64, f64, f64, f64, f64)> = Vec::new();
+     while let Some(node) = stack.pop() {
+         arena.truncate(node.parent_end);
+         point_arena.truncate(node.point_end);
+@@ -974,14 +983,27 @@ pub fn verify_direction(
+             && value + atom_inner + atom_lists.centre_estimate_up(&fr, &g) < threshold_hi - 1e-9
+         {
+             verdict = Verdict::CounterexampleCandidate;
+-            witness = Some((
++            let here = (
+                 x0,
+                 y0,
+                 add_dn(value, add_dn(atom_inner, atom_lists.centre_dn(&fr, &g))),
+                 dx,
+                 dy,
+-            ));
+-            break;
++            );
++            witness.get_or_insert(here);
++            if limits.max_witnesses <= 1 {
++                break;
++            }
++            if witnesses
++                .iter()
++                .all(|w| (w.0 - x0).hypot(w.1 - y0) >= limits.witness_separation)
++            {
++                witnesses.push(here);
++            }
++            if witnesses.len() as u64 >= u64::from(limits.max_witnesses) {
++                break;
++            }
++            continue;
+         }
+         if node.depth >= limits.max_depth || nodes >= limits.max_nodes {
+             let here = (
+@@ -1000,8 +1022,21 @@ pub fn verify_direction(
+                 && &crate::oracle::coverage(cert, &of_f64(x0), &of_f64(y0), &c, &s) < threshold
+             {
+                 verdict = Verdict::CounterexampleCandidate;
+-                witness = Some(here);
+-                break;
++                if limits.max_witnesses <= 1 {
++                    witness = Some(here);
++                    break;
++                }
++                witness.get_or_insert(here);
++                if witnesses
++                    .iter()
++                    .all(|w| (w.0 - x0).hypot(w.1 - y0) >= limits.witness_separation)
++                {
++                    witnesses.push(here);
++                }
++                if witnesses.len() as u64 >= u64::from(limits.max_witnesses) {
++                    break;
++                }
++                continue;
+             }
+             if nodes >= limits.max_nodes || deep_boxes >= MAX_DEEP_BOXES {
+                 verdict = Verdict::Unresolved;
+@@ -1083,6 +1118,7 @@ pub fn verify_direction(
+         },
+         argmin,
+         witness,
++        witnesses,
+         seconds: start.elapsed().as_secs_f64(),
+         mean_boundary: boundary_total as f64 / nodes.max(1) as f64,
+         audits,
+diff --git a/packing/sqverify_fast/tests/adversarial.rs b/packing/sqverify_fast/tests/adversarial.rs
+index 57dae9cee..a658bc529 100644
+--- a/packing/sqverify_fast/tests/adversarial.rs
++++ b/packing/sqverify_fast/tests/adversarial.rs
+@@ -32,6 +32,8 @@ const LIMITS: Limits = Limits {
+     max_depth: 60,
+     audit_every: 1024,
+     inject_fault_at: None,
++    max_witnesses: 1,
++    witness_separation: 0.0,
+ };
+ 
+ // ---------------------------------------------------------------- admission
+@@ -333,6 +335,8 @@ fn a_fault_injected_run_is_never_verified() {
+     let limits = Limits {
+         audit_every: 1 << 40,
+         inject_fault_at: Some(2),
++        max_witnesses: 1,
++        witness_separation: 0.0,
+         ..LIMITS
+     };
+     for index in [0u32, 1, 100] {
+@@ -415,6 +419,61 @@ fn format_l_and_m_nets_cannot_be_overridden() {
+     assert!(admit_value(&mixed, 2).is_err());
+ }
+ 
++fn declared_net(b: &str, net: &Value) -> Value {
++    json!({"n": 2, "L": "3", "B": b, "points": [], "proof_net": net,
++        "rectangles": [{"rectangle": [0, 0, 1, 1], "mass": 1}]})
++}
++
++#[test]
++fn a_format_m_candidate_may_declare_a_finer_uniform_net() {
++    // B = 999/1000 with step 1/1001 and 416 directions, as in the fine-net
++    // rectangle certificates; the per-bin domain follows the declared step.
++    let cert = admit_value(
++        &declared_net("999/1000", &json!({"step": "1/1001", "last": 415})),
++        2,
++    )
++    .unwrap();
++    assert_eq!(cert.step, ratio(1, 1001));
++    assert_eq!(cert.angle_count, 416);
++    let one = ratio(1, 1);
++    let a = ratio(415, 1001) - ratio(1, 2002);
++    let rho = (&one + ratio(2, 1) * &a - &a * &a) / (ratio(2, 1) * (&one + &a * &a));
++    assert_eq!(domain_upper(&cert, 415).unwrap(), ratio(3, 1) - rho);
++}
++
++#[test]
++fn a_declared_net_must_pass_every_net_premise() {
++    let refused = |b: &str, net: Value| admit_value(&declared_net(b, &net), 2).unwrap_err();
++    // B (1 + D) >= 1.
++    let error = refused("9995/10000", json!({"step": "1/1001", "last": 415}));
++    assert!(error.contains("B (1 + D)"), "{error}");
++    // (1 + 413/1001)^2 < 2: the net stops short of pi/4.
++    let error = refused("999/1000", json!({"step": "1/1001", "last": 413}));
++    assert!(error.contains("pi/4"), "{error}");
++    // last * step > 1/2 (lemma F3).
++    let error = refused("1/2", json!({"step": "1/10", "last": 6}));
++    assert!(error.contains("F3"), "{error}");
++    // Exactly the two fields, a nonnegative integer last.
++    for net in [
++        json!({"step": "1/1001"}),
++        json!({"step": "1/1001", "last": 415, "count": 416}),
++        json!({"step": "1/1001", "last": -1}),
++        json!({"step": "1/1001", "last": "415"}),
++        json!([1, 415]),
++    ] {
++        assert!(admit_value(&declared_net("999/1000", &net), 2).is_err());
++    }
++    // Metadata still may not touch a net, declared or not (finding TI-3).
++    let mut both = declared_net("999/1000", &json!({"step": "1/1001", "last": 415}));
++    both["certificate"] = json!({"D": "1/1001", "angle_count": 416});
++    assert!(admit_value(&both, 2).is_err());
++    // Only format M reads proof_net.
++    let tokoharu = json!({"L": "3", "B": "999/1000", "rectangles": [[0, 0, 1, 1]],
++        "weights": [1], "proof_net": {"step": "1/1001", "last": 415}});
++    let error = admit_value(&tokoharu, 2).unwrap_err();
++    assert!(error.contains("proof_net"), "{error}");
++}
++
+ #[test]
+ fn the_per_bin_domain_checks_the_tangent_form_of_the_shrink_premise() {
+     // The testing review's question: with bins of half-width D/2 in t, the angle
+@@ -448,6 +507,8 @@ const SMALL: Limits = Limits {
+     max_depth: 40,
+     audit_every: 1,
+     inject_fault_at: None,
++    max_witnesses: 1,
++    witness_separation: 0.0,
+ };
+ 
+ #[test]

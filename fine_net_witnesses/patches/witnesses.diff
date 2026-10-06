@@ -1,0 +1,197 @@
+diff --git a/packing/sqverify_fast/src/lib.rs b/packing/sqverify_fast/src/lib.rs
+index 96c5566ed..98158f856 100644
+--- a/packing/sqverify_fast/src/lib.rs
++++ b/packing/sqverify_fast/src/lib.rs
+@@ -173,6 +173,26 @@ fn run_direction_inner(
+             }
+         }
+     }
++    if result.witnesses.len() > 1 || limits.max_witnesses > 1 {
++        // A repair aid: every collected candidate, each with its exact capture
++        // at the box centre when confirming.
++        let (c, s) = direction(&cert.step, index);
++        let list: Vec<Value> = result
++            .witnesses
++            .iter()
++            .map(|&(x, y, value, dx, dy)| {
++                let mut w =
++                    json!({"x": x, "y": y, "dx": dx, "dy": dy, "centre_lower_bound": value});
++                if confirm {
++                    let exact = crate::oracle::coverage(cert, &of_f64(x), &of_f64(y), &c, &s);
++                    w["exact_coverage"] = json!(exact.to_string());
++                    w["exact_below_threshold"] = json!(&exact < threshold);
++                }
++                w
++            })
++            .collect();
++        receipt["witnesses"] = json!(list);
++    }
+     Ok(DirectionReport {
+         index,
+         verified: result.verdict == Verdict::Verified,
+diff --git a/packing/sqverify_fast/src/main.rs b/packing/sqverify_fast/src/main.rs
+index 0f64e6d39..2b952a8b0 100644
+--- a/packing/sqverify_fast/src/main.rs
++++ b/packing/sqverify_fast/src/main.rs
+@@ -4,6 +4,7 @@
+ //! sqverify-fast --candidate PATH --n N [--side P/Q] [--directions SPEC]
+ //!               [--threshold P/Q] [--threads K] [--max-nodes N] [--max-depth D]
+ //!               [--receipts DIR] [--confirm]
++//!               [--max-witnesses K] [--witness-separation S]
+ //! ```
+ //!
+ //! `SPEC` is `all` (the default), a range `a-b`, or a comma list. Standard
+@@ -51,6 +52,8 @@ fn parse_args() -> Result<Options, String> {
+             max_depth: 60,
+             audit_every: 1024,
+             inject_fault_at: None,
++            max_witnesses: 1,
++            witness_separation: 0.0,
+         },
+         receipts: None,
+         confirm: false,
+@@ -91,6 +94,16 @@ fn parse_args() -> Result<Options, String> {
+                         .map_err(|_| "--inject-fault-at-node must be an integer")?,
+                 );
+             }
++            "--max-witnesses" => {
++                options.limits.max_witnesses = value()?
++                    .parse()
++                    .map_err(|_| "--max-witnesses must be an integer")?;
++            }
++            "--witness-separation" => {
++                options.limits.witness_separation = value()?
++                    .parse()
++                    .map_err(|_| "--witness-separation must be a number")?;
++            }
+             "--receipts" => options.receipts = Some(PathBuf::from(value()?)),
+             "--confirm" => options.confirm = true,
+             "--probe" => options.probe = Some(value()?),
+diff --git a/packing/sqverify_fast/src/rotated.rs b/packing/sqverify_fast/src/rotated.rs
+index 7fd03b33e..d482ef0b0 100644
+--- a/packing/sqverify_fast/src/rotated.rs
++++ b/packing/sqverify_fast/src/rotated.rs
+@@ -43,6 +43,12 @@ pub struct Limits {
+     /// A control hook: at this box (1-based), classify the first boundary
+     /// rectangle as inside. Never set outside a control run.
+     pub inject_fault_at: Option<u64>,
++    /// Counterexample candidates to collect before stopping (1: stop at the first,
++    /// the verifier's behaviour). More than one is a search aid for repairing a
++    /// candidate: the search drops each refused box and goes on elsewhere.
++    pub max_witnesses: u32,
++    /// Least distance between the centres of two collected candidates.
++    pub witness_separation: f64,
+ }
+ 
+ /// The verdict of one direction.
+@@ -98,6 +104,8 @@ pub struct DirectionResult {
+     /// For a non-verified direction, the box centre that stopped the search.
+     /// `(x, y, centre lower bound, dx, dy)` of that box.
+     pub witness: Option<(f64, f64, f64, f64, f64)>,
++    /// With `max_witnesses > 1`, every collected candidate, in the order found.
++    pub witnesses: Vec<(f64, f64, f64, f64, f64)>,
+     /// Wall seconds of this direction's search.
+     pub seconds: f64,
+     /// Mean number of boundary rectangles per evaluated box.
+@@ -809,6 +817,7 @@ pub fn verify_direction(
+     // counterexample elsewhere is still found, and the first is reported.
+     let mut deep_boxes = 0u64;
+     let mut deep_witness = None;
++    let mut witnesses: Vec<(f64, f64, f64, f64, f64)> = Vec::new();
+     while let Some(node) = stack.pop() {
+         arena.truncate(node.parent_end);
+         point_arena.truncate(node.point_end);
+@@ -974,14 +983,27 @@ pub fn verify_direction(
+             && value + atom_inner + atom_lists.centre_estimate_up(&fr, &g) < threshold_hi - 1e-9
+         {
+             verdict = Verdict::CounterexampleCandidate;
+-            witness = Some((
++            let here = (
+                 x0,
+                 y0,
+                 add_dn(value, add_dn(atom_inner, atom_lists.centre_dn(&fr, &g))),
+                 dx,
+                 dy,
+-            ));
+-            break;
++            );
++            witness.get_or_insert(here);
++            if limits.max_witnesses <= 1 {
++                break;
++            }
++            if witnesses
++                .iter()
++                .all(|w| (w.0 - x0).hypot(w.1 - y0) >= limits.witness_separation)
++            {
++                witnesses.push(here);
++            }
++            if witnesses.len() as u64 >= u64::from(limits.max_witnesses) {
++                break;
++            }
++            continue;
+         }
+         if node.depth >= limits.max_depth || nodes >= limits.max_nodes {
+             let here = (
+@@ -1000,8 +1022,21 @@ pub fn verify_direction(
+                 && &crate::oracle::coverage(cert, &of_f64(x0), &of_f64(y0), &c, &s) < threshold
+             {
+                 verdict = Verdict::CounterexampleCandidate;
+-                witness = Some(here);
+-                break;
++                if limits.max_witnesses <= 1 {
++                    witness = Some(here);
++                    break;
++                }
++                witness.get_or_insert(here);
++                if witnesses
++                    .iter()
++                    .all(|w| (w.0 - x0).hypot(w.1 - y0) >= limits.witness_separation)
++                {
++                    witnesses.push(here);
++                }
++                if witnesses.len() as u64 >= u64::from(limits.max_witnesses) {
++                    break;
++                }
++                continue;
+             }
+             if nodes >= limits.max_nodes || deep_boxes >= MAX_DEEP_BOXES {
+                 verdict = Verdict::Unresolved;
+@@ -1083,6 +1118,7 @@ pub fn verify_direction(
+         },
+         argmin,
+         witness,
++        witnesses,
+         seconds: start.elapsed().as_secs_f64(),
+         mean_boundary: boundary_total as f64 / nodes.max(1) as f64,
+         audits,
+diff --git a/packing/sqverify_fast/tests/adversarial.rs b/packing/sqverify_fast/tests/adversarial.rs
+index 67e717d06..a658bc529 100644
+--- a/packing/sqverify_fast/tests/adversarial.rs
++++ b/packing/sqverify_fast/tests/adversarial.rs
+@@ -32,6 +32,8 @@ const LIMITS: Limits = Limits {
+     max_depth: 60,
+     audit_every: 1024,
+     inject_fault_at: None,
++    max_witnesses: 1,
++    witness_separation: 0.0,
+ };
+ 
+ // ---------------------------------------------------------------- admission
+@@ -333,6 +335,8 @@ fn a_fault_injected_run_is_never_verified() {
+     let limits = Limits {
+         audit_every: 1 << 40,
+         inject_fault_at: Some(2),
++        max_witnesses: 1,
++        witness_separation: 0.0,
+         ..LIMITS
+     };
+     for index in [0u32, 1, 100] {
+@@ -503,6 +507,8 @@ const SMALL: Limits = Limits {
+     max_depth: 40,
+     audit_every: 1,
+     inject_fault_at: None,
++    max_witnesses: 1,
++    witness_separation: 0.0,
+ };
+ 
+ #[test]

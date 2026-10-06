@@ -1,0 +1,172 @@
+diff --git a/packing/sqverify_fast/README.md b/packing/sqverify_fast/README.md
+index d18f756c6..3f9b25bb7 100644
+--- a/packing/sqverify_fast/README.md
++++ b/packing/sqverify_fast/README.md
+@@ -2,7 +2,7 @@
+ 
+ A clean-room verifier for measure-capture lower-bound certificates: given a nonnegative
+ measure on $[0, L]^2$ of mass below $n$, it checks that every shrunk square of side $B$,
+-at each of the 201 net directions and every centre, captures at least the threshold,
++at each net direction (201 by default) and every centre, captures at least the threshold,
+ which proves $s(n) \ge L$. It is lane W2 of `think-gpe0`, written without reading the
+ authors’ checkers ([INDEPENDENCE.md](INDEPENDENCE.md)), with every lemma it relies on
+ proved in [SOUNDNESS.md](SOUNDNESS.md).
+@@ -27,7 +27,10 @@ target/release/sqverify-fast --candidate PATH.json.gz --n N [--side P/Q] \
+ Standard output is one JSON receipt per direction and a summary line; the exit status is
+ 0 only when every requested direction is verified (`VERIFIED` for the whole net,
+ `PARTIAL` for a subset), 1 when one is refused, and 2 on an admission refusal.
+-The default threshold is the certificate’s declared one, else 1. `--confirm` evaluates a
++The default threshold is the certificate’s declared one, else 1.
++A format M candidate may declare a finer uniform net as `proof_net: {"step": "1/1001",
++"last": 415}`; admission checks the net premises for it (SOUNDNESS.md, Formats M and
++L). `--confirm` evaluates a
+ refusal’s witness in exact rationals.
+ `--probe r,x,y[,dx,dy]` prints the certified centre (and box) bound and the
+ counterexample estimate beside the exact capture, for differential tests.
+diff --git a/packing/sqverify_fast/SOUNDNESS.md b/packing/sqverify_fast/SOUNDNESS.md
+index cadf59b63..a8238d7ee 100644
+--- a/packing/sqverify_fast/SOUNDNESS.md
++++ b/packing/sqverify_fast/SOUNDNESS.md
+@@ -268,6 +268,13 @@ segment of length zero, a nonempty format M `points` list, a format L `net` othe
+ step $83/40000$ and last index $200$, certificate metadata that changes the net of
+ either format (finding TI-3), format M’s premise $B(1 + D/(1 - D^2/4)) < 1$ failing
+ (N3), and a `total_mass` other than the exact sum.
++A format M candidate may declare its own uniform net as `proof_net: {step, last}`, with
++$D$ = `step` and $N_\theta$ = `last` + 1; without it the net is $83/40000$ and $201$.
++The declaration is part of the candidate, not metadata, so TI-3 is unchanged, and a
++candidate that carries both is refused.
++Lemmas N1 to N3, D and F3 are stated for a general $D$, and admission checks each of
++their premises for the declared net exactly as for the default one: $B(1 + D) < 1$, the
++tangent form above, $(1 + (N_\theta - 1) D)^2 > 2$ and $(N_\theta - 1) D \le 1/2$.
+ Every row is an orbit representative whose eight $D_4$ images carry an eighth of its
+ mass each; coincident images are merged by exact key (a segment and its reverse are one
+ key), and the merged total must equal $M$.
+@@ -440,6 +447,10 @@ of the 3 October soundness review, whose reproducers are in `tests/adversarial.r
+   with a second member or trailing bytes is refused; format L and M nets cannot be
+   changed by metadata; format M’s tangent-form premise refuses a $B$ between the two
+   limits, which format T admits.
++- `tests/adversarial.rs`, for the declared net: a format M `proof_net` with step
++  $1/1001$ and 416 directions is admitted with the per-bin domain it implies; a declared
++  net failing $B(1 + D) < 1$, the endpoint or F3 is refused, as is a malformed
++  declaration, one beside net metadata, and one on another format.
+ - `interval::tests::nan_is_never_dropped`: every interval primitive keeps a `NaN`
+   endpoint, and an overflowing directed step is `NaN`.
+ - `rotated_tests::oracle_counts_closed_intersections`: the oracle counts a point on the
+diff --git a/packing/sqverify_fast/src/certificate.rs b/packing/sqverify_fast/src/certificate.rs
+index 657ef08f9..1bbefbd87 100644
+--- a/packing/sqverify_fast/src/certificate.rs
++++ b/packing/sqverify_fast/src/certificate.rs
+@@ -554,6 +554,32 @@ pub fn admit(
+             }
+         }
+     }
++    // A format M candidate may declare its own uniform net as `proof_net:
++    // {step, last}`, meaning t_r = r * step for r = 0..=last. The net is then
++    // part of the candidate (its digest covers it), not metadata, so finding
++    // TI-3 still holds: metadata never changes a net. Lemmas N1-N3 and D are
++    // written for a general step D, and admission below checks B (1 + D) < 1,
++    // the per-bin tangent form, the endpoint and lemma F3's last <= 1/2.
++    let mut declared_net = false;
++    if let Some(net) = object.get("proof_net") {
++        let Value::Object(net) = net else {
++            return refuse("proof_net must be an object");
++        };
++        if net.len() != 2 || !net.contains_key("step") || !net.contains_key("last") {
++            return refuse("proof_net must have exactly the fields step and last");
++        }
++        if object.get("certificate").is_some() {
++            return refuse("proof_net and certificate metadata may not both set the net");
++        }
++        step = rational_of(&net["step"], "proof_net.step")?;
++        let last = net["last"]
++            .as_u64()
++            .and_then(|l| u32::try_from(l).ok())
++            .and_then(|l| l.checked_add(1))
++            .ok_or(AdmissionError("bad proof_net.last".into()))?;
++        angle_count = last;
++        declared_net = true;
++    }
+     let zero = BigRational::zero();
+     let one = ratio(1, 1);
+     if !(side.is_positive() && side <= ratio(MAX_SIDE, 1)) {
+@@ -582,8 +608,12 @@ pub fn admit(
+     }
+ 
+     let (format, domain, listed) = sources(object)?;
+-    // Formats M and L fix the net; metadata may restate it but never change it.
+-    if format != "T" && (step != ratio(83, 40_000) || angle_count != 201) {
++    // Formats M and L fix the net unless a format M candidate declares
++    // `proof_net`; metadata may restate the fixed net but never change it.
++    if declared_net && format != "M" {
++        return refuse("proof_net is accepted only for format M");
++    }
++    if format != "T" && !declared_net && (step != ratio(83, 40_000) || angle_count != 201) {
+         return refuse(format!(
+             "format {format}'s net is step 83/40000 with 201 directions; certificate \
+              metadata may not change it"
+diff --git a/packing/sqverify_fast/tests/adversarial.rs b/packing/sqverify_fast/tests/adversarial.rs
+index 57dae9cee..67e717d06 100644
+--- a/packing/sqverify_fast/tests/adversarial.rs
++++ b/packing/sqverify_fast/tests/adversarial.rs
+@@ -415,6 +415,61 @@ fn format_l_and_m_nets_cannot_be_overridden() {
+     assert!(admit_value(&mixed, 2).is_err());
+ }
+ 
++fn declared_net(b: &str, net: &Value) -> Value {
++    json!({"n": 2, "L": "3", "B": b, "points": [], "proof_net": net,
++        "rectangles": [{"rectangle": [0, 0, 1, 1], "mass": 1}]})
++}
++
++#[test]
++fn a_format_m_candidate_may_declare_a_finer_uniform_net() {
++    // B = 999/1000 with step 1/1001 and 416 directions, as in the fine-net
++    // rectangle certificates; the per-bin domain follows the declared step.
++    let cert = admit_value(
++        &declared_net("999/1000", &json!({"step": "1/1001", "last": 415})),
++        2,
++    )
++    .unwrap();
++    assert_eq!(cert.step, ratio(1, 1001));
++    assert_eq!(cert.angle_count, 416);
++    let one = ratio(1, 1);
++    let a = ratio(415, 1001) - ratio(1, 2002);
++    let rho = (&one + ratio(2, 1) * &a - &a * &a) / (ratio(2, 1) * (&one + &a * &a));
++    assert_eq!(domain_upper(&cert, 415).unwrap(), ratio(3, 1) - rho);
++}
++
++#[test]
++fn a_declared_net_must_pass_every_net_premise() {
++    let refused = |b: &str, net: Value| admit_value(&declared_net(b, &net), 2).unwrap_err();
++    // B (1 + D) >= 1.
++    let error = refused("9995/10000", json!({"step": "1/1001", "last": 415}));
++    assert!(error.contains("B (1 + D)"), "{error}");
++    // (1 + 413/1001)^2 < 2: the net stops short of pi/4.
++    let error = refused("999/1000", json!({"step": "1/1001", "last": 413}));
++    assert!(error.contains("pi/4"), "{error}");
++    // last * step > 1/2 (lemma F3).
++    let error = refused("1/2", json!({"step": "1/10", "last": 6}));
++    assert!(error.contains("F3"), "{error}");
++    // Exactly the two fields, a nonnegative integer last.
++    for net in [
++        json!({"step": "1/1001"}),
++        json!({"step": "1/1001", "last": 415, "count": 416}),
++        json!({"step": "1/1001", "last": -1}),
++        json!({"step": "1/1001", "last": "415"}),
++        json!([1, 415]),
++    ] {
++        assert!(admit_value(&declared_net("999/1000", &net), 2).is_err());
++    }
++    // Metadata still may not touch a net, declared or not (finding TI-3).
++    let mut both = declared_net("999/1000", &json!({"step": "1/1001", "last": 415}));
++    both["certificate"] = json!({"D": "1/1001", "angle_count": 416});
++    assert!(admit_value(&both, 2).is_err());
++    // Only format M reads proof_net.
++    let tokoharu = json!({"L": "3", "B": "999/1000", "rectangles": [[0, 0, 1, 1]],
++        "weights": [1], "proof_net": {"step": "1/1001", "last": 415}});
++    let error = admit_value(&tokoharu, 2).unwrap_err();
++    assert!(error.contains("proof_net"), "{error}");
++}
++
+ #[test]
+ fn the_per_bin_domain_checks_the_tangent_form_of_the_shrink_premise() {
+     // The testing review's question: with bins of half-width D/2 in t, the angle
