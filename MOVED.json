@@ -1,0 +1,906 @@
+{
+ "schema": "moved/v1",
+ "old_repository": "wand125/square-packing-tools",
+ "old_head": "18561cdf965c19231a4cdcd559829702a38bd77c",
+ "new_repository": "wand125/square-packing",
+ "note": "Every path of the old repository at old_head and where it lives now: 'new' is a path in the new repository's git tree (documents, code, metadata); 'new_release' is a release asset (certificate data) with the path inside it. The old repository is archived (read-only); its history and releases remain available.",
+ "paths": [
+  {
+   "old": ".github/workflows/ci.yml",
+   "new": "tools/.github/workflows/ci.yml"
+  },
+  {
+   "old": ".gitignore",
+   "new": "tools/.gitignore"
+  },
+  {
+   "old": "LICENSE",
+   "new": "tools/LICENSE"
+  },
+  {
+   "old": "README.md",
+   "new": "tools/README.md"
+  },
+  {
+   "old": "THIRD_PARTY_NOTICES.md",
+   "new": "tools/THIRD_PARTY_NOTICES.md"
+  },
+  {
+   "old": "fine_net_verifier/PROVENANCE.md",
+   "new": "tools/fine_net_verifier/PROVENANCE.md"
+  },
+  {
+   "old": "fine_net_verifier/README.md",
+   "new": "tools/fine_net_verifier/README.md"
+  },
+  {
+   "old": "fine_net_verifier/fine_net_check.py",
+   "new": "tools/fine_net_verifier/fine_net_check.py"
+  },
+  {
+   "old": "fine_net_verifier/patches/proof_net.diff",
+   "new": "tools/fine_net_verifier/patches/proof_net.diff"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/.gitignore",
+   "new": "tools/fine_net_verifier/sqverify_fast/.gitignore"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/Cargo.lock",
+   "new": "tools/fine_net_verifier/sqverify_fast/Cargo.lock"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/Cargo.toml",
+   "new": "tools/fine_net_verifier/sqverify_fast/Cargo.toml"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/INDEPENDENCE.md",
+   "new": "tools/fine_net_verifier/sqverify_fast/INDEPENDENCE.md"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/README.md",
+   "new": "tools/fine_net_verifier/sqverify_fast/README.md"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/SOUNDNESS.md",
+   "new": "tools/fine_net_verifier/sqverify_fast/SOUNDNESS.md"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/build.rs",
+   "new": "tools/fine_net_verifier/sqverify_fast/build.rs"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/clippy.toml",
+   "new": "tools/fine_net_verifier/sqverify_fast/clippy.toml"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/independence-record.yaml",
+   "new": "tools/fine_net_verifier/sqverify_fast/independence-record.yaml"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/rust-toolchain.toml",
+   "new": "tools/fine_net_verifier/sqverify_fast/rust-toolchain.toml"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/src/axis.rs",
+   "new": "tools/fine_net_verifier/sqverify_fast/src/axis.rs"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/src/certificate.rs",
+   "new": "tools/fine_net_verifier/sqverify_fast/src/certificate.rs"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/src/exact.rs",
+   "new": "tools/fine_net_verifier/sqverify_fast/src/exact.rs"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/src/interval.rs",
+   "new": "tools/fine_net_verifier/sqverify_fast/src/interval.rs"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/src/lib.rs",
+   "new": "tools/fine_net_verifier/sqverify_fast/src/lib.rs"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/src/main.rs",
+   "new": "tools/fine_net_verifier/sqverify_fast/src/main.rs"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/src/oracle.rs",
+   "new": "tools/fine_net_verifier/sqverify_fast/src/oracle.rs"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/src/rotated.rs",
+   "new": "tools/fine_net_verifier/sqverify_fast/src/rotated.rs"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/src/rotated_tests.rs",
+   "new": "tools/fine_net_verifier/sqverify_fast/src/rotated_tests.rs"
+  },
+  {
+   "old": "fine_net_verifier/sqverify_fast/tests/adversarial.rs",
+   "new": "tools/fine_net_verifier/sqverify_fast/tests/adversarial.rs"
+  },
+  {
+   "old": "fine_net_witnesses/PROVENANCE.md",
+   "new": "tools/fine_net_witnesses/PROVENANCE.md"
+  },
+  {
+   "old": "fine_net_witnesses/README.md",
+   "new": "tools/fine_net_witnesses/README.md"
+  },
+  {
+   "old": "fine_net_witnesses/patches/from_upstream.diff",
+   "new": "tools/fine_net_witnesses/patches/from_upstream.diff"
+  },
+  {
+   "old": "fine_net_witnesses/patches/witnesses.diff",
+   "new": "tools/fine_net_witnesses/patches/witnesses.diff"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/.gitignore",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/.gitignore"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/Cargo.lock",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/Cargo.lock"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/Cargo.toml",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/Cargo.toml"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/INDEPENDENCE.md",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/INDEPENDENCE.md"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/README.md",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/README.md"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/SOUNDNESS.md",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/SOUNDNESS.md"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/build.rs",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/build.rs"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/clippy.toml",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/clippy.toml"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/independence-record.yaml",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/independence-record.yaml"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/rust-toolchain.toml",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/rust-toolchain.toml"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/src/axis.rs",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/src/axis.rs"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/src/certificate.rs",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/src/certificate.rs"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/src/exact.rs",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/src/exact.rs"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/src/interval.rs",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/src/interval.rs"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/src/lib.rs",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/src/lib.rs"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/src/main.rs",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/src/main.rs"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/src/oracle.rs",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/src/oracle.rs"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/src/rotated.rs",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/src/rotated.rs"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/src/rotated_tests.rs",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/src/rotated_tests.rs"
+  },
+  {
+   "old": "fine_net_witnesses/sqverify_fast_witnesses/tests/adversarial.rs",
+   "new": "tools/fine_net_witnesses/sqverify_fast_witnesses/tests/adversarial.rs"
+  },
+  {
+   "old": "general_pose_tree/README.md",
+   "new": "tools/general_pose_tree/README.md"
+  },
+  {
+   "old": "general_pose_tree/branch.py",
+   "new": "tools/general_pose_tree/branch.py"
+  },
+  {
+   "old": "general_pose_tree/check_n21.py",
+   "new": "tools/general_pose_tree/check_n21.py"
+  },
+  {
+   "old": "general_pose_tree/enclosure.py",
+   "new": "tools/general_pose_tree/enclosure.py"
+  },
+  {
+   "old": "general_pose_tree/measure.py",
+   "new": "tools/general_pose_tree/measure.py"
+  },
+  {
+   "old": "general_pose_tree/run_n11.py",
+   "new": "tools/general_pose_tree/run_n11.py"
+  },
+  {
+   "old": "general_pose_tree/summarize_n11.py",
+   "new": "tools/general_pose_tree/summarize_n11.py"
+  },
+  {
+   "old": "general_pose_tree/tests/test_general_pose_tree.py",
+   "new": "tools/general_pose_tree/tests/test_general_pose_tree.py"
+  },
+  {
+   "old": "ladder/checkpoint_basis.py",
+   "new": "tools/ladder/checkpoint_basis.py"
+  },
+  {
+   "old": "ladder/compare_saved.py",
+   "new": "tools/ladder/compare_saved.py"
+  },
+  {
+   "old": "ladder/edge_pricing.py",
+   "new": "tools/ladder/edge_pricing.py"
+  },
+  {
+   "old": "ladder/edge_rung.py",
+   "new": "tools/ladder/edge_rung.py"
+  },
+  {
+   "old": "ladder/paths.py",
+   "new": "tools/ladder/paths.py"
+  },
+  {
+   "old": "ladder/residual_recovery.py",
+   "new": "tools/ladder/residual_recovery.py"
+  },
+  {
+   "old": "ladder/rung.py",
+   "new": "tools/ladder/rung.py"
+  },
+  {
+   "old": "ladder/screen_saved.py",
+   "new": "tools/ladder/screen_saved.py"
+  },
+  {
+   "old": "ladder/test_edge_pricing.py",
+   "new": "tools/ladder/test_edge_pricing.py"
+  },
+  {
+   "old": "ladder/trial_guarded.py",
+   "new": "tools/ladder/trial_guarded.py"
+  },
+  {
+   "old": "n17_bb_verifier/.gitignore",
+   "new": "tools/n17_bb_verifier/.gitignore"
+  },
+  {
+   "old": "n17_bb_verifier/Cargo.lock",
+   "new": "tools/n17_bb_verifier/Cargo.lock"
+  },
+  {
+   "old": "n17_bb_verifier/Cargo.toml",
+   "new": "tools/n17_bb_verifier/Cargo.toml"
+  },
+  {
+   "old": "n17_bb_verifier/LICENSE",
+   "new": "tools/n17_bb_verifier/LICENSE"
+  },
+  {
+   "old": "n17_bb_verifier/README.md",
+   "new": "tools/n17_bb_verifier/README.md"
+  },
+  {
+   "old": "n17_bb_verifier/RESULT_TIGHTEN.md",
+   "new": "tools/n17_bb_verifier/RESULT_TIGHTEN.md"
+  },
+  {
+   "old": "n17_bb_verifier/clippy.toml",
+   "new": "tools/n17_bb_verifier/clippy.toml"
+  },
+  {
+   "old": "n17_bb_verifier/rust-toolchain.toml",
+   "new": "tools/n17_bb_verifier/rust-toolchain.toml"
+  },
+  {
+   "old": "n17_bb_verifier/scripts/check_v1.py",
+   "new": "tools/n17_bb_verifier/scripts/check_v1.py"
+  },
+  {
+   "old": "n17_bb_verifier/scripts/check_v3.py",
+   "new": "tools/n17_bb_verifier/scripts/check_v3.py"
+  },
+  {
+   "old": "n17_bb_verifier/scripts/make_v3_fixtures.py",
+   "new": "tools/n17_bb_verifier/scripts/make_v3_fixtures.py"
+  },
+  {
+   "old": "n17_bb_verifier/scripts/measure.py",
+   "new": "tools/n17_bb_verifier/scripts/measure.py"
+  },
+  {
+   "old": "n17_bb_verifier/src/compact.rs",
+   "new": "tools/n17_bb_verifier/src/compact.rs"
+  },
+  {
+   "old": "n17_bb_verifier/src/exact.rs",
+   "new": "tools/n17_bb_verifier/src/exact.rs"
+  },
+  {
+   "old": "n17_bb_verifier/src/main.rs",
+   "new": "tools/n17_bb_verifier/src/main.rs"
+  },
+  {
+   "old": "n17_bb_verifier/src/nodes.rs",
+   "new": "tools/n17_bb_verifier/src/nodes.rs"
+  },
+  {
+   "old": "n17_bb_verifier/src/tighten.rs",
+   "new": "tools/n17_bb_verifier/src/tighten.rs"
+  },
+  {
+   "old": "n17_bb_verifier/tests/cells.json",
+   "new": "tools/n17_bb_verifier/tests/cells.json"
+  },
+  {
+   "old": "n17_bb_verifier/tests/cli.rs",
+   "new": "tools/n17_bb_verifier/tests/cli.rs"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-bound/099b9fb9401cc14b1931d3f1b740fe37dd7504933581a3d86dbb05f2a3003c8b.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-bound/099b9fb9401cc14b1931d3f1b740fe37dd7504933581a3d86dbb05f2a3003c8b.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-bound/31ca38ea9605e569b54a3d27fbf814e6c6de36b6ac78a79a1fc6ec6f4f2d774a.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-bound/31ca38ea9605e569b54a3d27fbf814e6c6de36b6ac78a79a1fc6ec6f4f2d774a.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-bound/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-bound/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-bound/ef3717486ab61869e6e43ee21bbe367a4ec9a19fea443e5a73a61da89369cb0a.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-bound/ef3717486ab61869e6e43ee21bbe367a4ec9a19fea443e5a73a61da89369cb0a.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-cut/099b9fb9401cc14b1931d3f1b740fe37dd7504933581a3d86dbb05f2a3003c8b.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-cut/099b9fb9401cc14b1931d3f1b740fe37dd7504933581a3d86dbb05f2a3003c8b.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-cut/31ca38ea9605e569b54a3d27fbf814e6c6de36b6ac78a79a1fc6ec6f4f2d774a.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-cut/31ca38ea9605e569b54a3d27fbf814e6c6de36b6ac78a79a1fc6ec6f4f2d774a.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-cut/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-cut/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-cut/ef3717486ab61869e6e43ee21bbe367a4ec9a19fea443e5a73a61da89369cb0a.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-cut/ef3717486ab61869e6e43ee21bbe367a4ec9a19fea443e5a73a61da89369cb0a.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-drop-leaf/099b9fb9401cc14b1931d3f1b740fe37dd7504933581a3d86dbb05f2a3003c8b.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-drop-leaf/099b9fb9401cc14b1931d3f1b740fe37dd7504933581a3d86dbb05f2a3003c8b.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-drop-leaf/31ca38ea9605e569b54a3d27fbf814e6c6de36b6ac78a79a1fc6ec6f4f2d774a.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-drop-leaf/31ca38ea9605e569b54a3d27fbf814e6c6de36b6ac78a79a1fc6ec6f4f2d774a.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-drop-leaf/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-drop-leaf/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-drop-leaf/ef3717486ab61869e6e43ee21bbe367a4ec9a19fea443e5a73a61da89369cb0a.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-drop-leaf/ef3717486ab61869e6e43ee21bbe367a4ec9a19fea443e5a73a61da89369cb0a.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-multiplier/099b9fb9401cc14b1931d3f1b740fe37dd7504933581a3d86dbb05f2a3003c8b.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-multiplier/099b9fb9401cc14b1931d3f1b740fe37dd7504933581a3d86dbb05f2a3003c8b.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-multiplier/31ca38ea9605e569b54a3d27fbf814e6c6de36b6ac78a79a1fc6ec6f4f2d774a.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-multiplier/31ca38ea9605e569b54a3d27fbf814e6c6de36b6ac78a79a1fc6ec6f4f2d774a.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-multiplier/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-multiplier/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-multiplier/ef3717486ab61869e6e43ee21bbe367a4ec9a19fea443e5a73a61da89369cb0a.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-multiplier/ef3717486ab61869e6e43ee21bbe367a4ec9a19fea443e5a73a61da89369cb0a.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-narrow-final/099b9fb9401cc14b1931d3f1b740fe37dd7504933581a3d86dbb05f2a3003c8b.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-narrow-final/099b9fb9401cc14b1931d3f1b740fe37dd7504933581a3d86dbb05f2a3003c8b.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-narrow-final/31ca38ea9605e569b54a3d27fbf814e6c6de36b6ac78a79a1fc6ec6f4f2d774a.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-narrow-final/31ca38ea9605e569b54a3d27fbf814e6c6de36b6ac78a79a1fc6ec6f4f2d774a.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-narrow-final/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-narrow-final/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-narrow-final/ef3717486ab61869e6e43ee21bbe367a4ec9a19fea443e5a73a61da89369cb0a.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-narrow-final/ef3717486ab61869e6e43ee21bbe367a4ec9a19fea443e5a73a61da89369cb0a.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-split/099b9fb9401cc14b1931d3f1b740fe37dd7504933581a3d86dbb05f2a3003c8b.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-split/099b9fb9401cc14b1931d3f1b740fe37dd7504933581a3d86dbb05f2a3003c8b.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-split/31ca38ea9605e569b54a3d27fbf814e6c6de36b6ac78a79a1fc6ec6f4f2d774a.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-split/31ca38ea9605e569b54a3d27fbf814e6c6de36b6ac78a79a1fc6ec6f4f2d774a.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-split/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-split/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/mutated-split/ef3717486ab61869e6e43ee21bbe367a4ec9a19fea443e5a73a61da89369cb0a.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/mutated-split/ef3717486ab61869e6e43ee21bbe367a4ec9a19fea443e5a73a61da89369cb0a.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/small-certificate/099b9fb9401cc14b1931d3f1b740fe37dd7504933581a3d86dbb05f2a3003c8b.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/small-certificate/099b9fb9401cc14b1931d3f1b740fe37dd7504933581a3d86dbb05f2a3003c8b.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/small-certificate/31ca38ea9605e569b54a3d27fbf814e6c6de36b6ac78a79a1fc6ec6f4f2d774a.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/small-certificate/31ca38ea9605e569b54a3d27fbf814e6c6de36b6ac78a79a1fc6ec6f4f2d774a.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/small-certificate/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/small-certificate/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/small-certificate/ef3717486ab61869e6e43ee21bbe367a4ec9a19fea443e5a73a61da89369cb0a.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/small-certificate/ef3717486ab61869e6e43ee21bbe367a4ec9a19fea443e5a73a61da89369cb0a.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-angle/4da11d28a1577c2182ef290deb044a73000d0bf5557fa61709f7f9ee60ad1818.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-angle/4da11d28a1577c2182ef290deb044a73000d0bf5557fa61709f7f9ee60ad1818.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-angle/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-angle/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-angle/e6be869d337e98d1d07aaba9ed1d25eb98d217d5494f1ba5b74257f0b99192c3.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-angle/e6be869d337e98d1d07aaba9ed1d25eb98d217d5494f1ba5b74257f0b99192c3.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-angle/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-angle/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-cells.json",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-cells.json"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-child-window/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-child-window/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-child-window/ac7743cbe110508e583b0f2742247147512b4e9ab036e923b546bf1ecc98ee8d.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-child-window/ac7743cbe110508e583b0f2742247147512b4e9ab036e923b546bf1ecc98ee8d.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-child-window/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-child-window/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-child-window/fee8c2c701498d17275a1bb74034483157f7a56355331f24e261f7785ccffc9d.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-child-window/fee8c2c701498d17275a1bb74034483157f7a56355331f24e261f7785ccffc9d.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-drop-partner/6daeb17340f64b70629007ac06e203b958ef848f2c3c59bd34b6a7f155a4c1a7.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-drop-partner/6daeb17340f64b70629007ac06e203b958ef848f2c3c59bd34b6a7f155a4c1a7.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-drop-partner/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-drop-partner/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-drop-partner/ce7e1fb3d4ab9a37730f9acd65fbe1f1b14f07f935549387b852692cae9cd005.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-drop-partner/ce7e1fb3d4ab9a37730f9acd65fbe1f1b14f07f935549387b852692cae9cd005.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-drop-partner/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-drop-partner/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-in-v1/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-in-v1/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-in-v1/e6be869d337e98d1d07aaba9ed1d25eb98d217d5494f1ba5b74257f0b99192c3.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-in-v1/e6be869d337e98d1d07aaba9ed1d25eb98d217d5494f1ba5b74257f0b99192c3.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-in-v1/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-in-v1/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-in-v1/ff6087a4a46bedca9ec813fa673463725d5019ec6430b47b0bc46427d0a63d33.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-in-v1/ff6087a4a46bedca9ec813fa673463725d5019ec6430b47b0bc46427d0a63d33.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-missing-trig/3c4369588ac4421a24af256c34c1662de90fdfbbd1ac5662045f8da51327b132.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-missing-trig/3c4369588ac4421a24af256c34c1662de90fdfbbd1ac5662045f8da51327b132.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-missing-trig/80d6fb1ec3f51fc08505d41bce6d684c16e8f5be7651bdfd17e02dbd520dfae6.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-missing-trig/80d6fb1ec3f51fc08505d41bce6d684c16e8f5be7651bdfd17e02dbd520dfae6.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-missing-trig/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-missing-trig/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-missing-trig/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-missing-trig/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-not-empty/11bb5e364c4c26f6979656ff51904f8dd09eb17dfff5fb963b8df2d44f9ca28d.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-not-empty/11bb5e364c4c26f6979656ff51904f8dd09eb17dfff5fb963b8df2d44f9ca28d.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-not-empty/8d50c2dbcabc681e402a2ce9c9436c637b003e1b3d8d830cf812546a3e3a51f4.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-not-empty/8d50c2dbcabc681e402a2ce9c9436c637b003e1b3d8d830cf812546a3e3a51f4.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-not-empty/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-not-empty/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-not-empty/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-not-empty/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-repeat/03a8fb490253516e4327379c45801e89e0d63419f5d6cddda4c6f9e10362f416.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-repeat/03a8fb490253516e4327379c45801e89e0d63419f5d6cddda4c6f9e10362f416.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-repeat/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-repeat/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-repeat/dfd3b75765b503b89908ae0212cec5d59ab883d5155612f86c76fb4773fa0420.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-repeat/dfd3b75765b503b89908ae0212cec5d59ab883d5155612f86c76fb4773fa0420.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-repeat/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-repeat/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-small-final/15e109c0994cf8f22647124812f0db76843290a2576916ff564bad0c33364c88.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-small-final/15e109c0994cf8f22647124812f0db76843290a2576916ff564bad0c33364c88.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-small-final/1bb7661aaaa936d8729cb806a30f0bb54f146a3881387ad5e2e1b7c8f270469e.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-small-final/1bb7661aaaa936d8729cb806a30f0bb54f146a3881387ad5e2e1b7c8f270469e.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-small-final/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-small-final/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-small-final/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-small-final/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-summary/7961009e6ed2c551b9ecc30db07e86c0996d3c5f28e22db19ed1bb056e093ff7.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-summary/7961009e6ed2c551b9ecc30db07e86c0996d3c5f28e22db19ed1bb056e093ff7.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-summary/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-summary/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-summary/e6be869d337e98d1d07aaba9ed1d25eb98d217d5494f1ba5b74257f0b99192c3.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-summary/e6be869d337e98d1d07aaba9ed1d25eb98d217d5494f1ba5b74257f0b99192c3.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-summary/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-summary/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-target/17a5ac49547ba841d647d17426dd01da7c0d5f9eff7c8b942704de48c4b4ad44.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-target/17a5ac49547ba841d647d17426dd01da7c0d5f9eff7c8b942704de48c4b4ad44.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-target/377ff91da058823ea6c44171bd5353d651f79a59c42ec47b10034d14c21673c4.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-target/377ff91da058823ea6c44171bd5353d651f79a59c42ec47b10034d14c21673c4.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-target/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-target/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-target/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-target/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-tighten/8b3dca1be2940254e3d495ef9ff78f250c6c329a3deb7ddc243bbf3a5a1a5768.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-tighten/8b3dca1be2940254e3d495ef9ff78f250c6c329a3deb7ddc243bbf3a5a1a5768.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-tighten/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-tighten/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-tighten/c281abca0715011d9c5532ba696aee87d75cea10f8e6afc637cfa99e5ac43089.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-tighten/c281abca0715011d9c5532ba696aee87d75cea10f8e6afc637cfa99e5ac43089.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-tighten/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-tighten/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-wall/1c1eaf1bbdd7b378197aee9838617868ce0d9baa954fece3cbdb641fa846c5a6.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-wall/1c1eaf1bbdd7b378197aee9838617868ce0d9baa954fece3cbdb641fa846c5a6.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-wall/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-wall/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-wall/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-wall/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-wall/e8cd9711c95895cb88ea3424abab34e98a2723a6cbff6f7cc588693a6c79020c.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-wall/e8cd9711c95895cb88ea3424abab34e98a2723a6cbff6f7cc588693a6c79020c.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-wrong-pair/1a81de19e9b42aacf8e31d010a0901a0ab77bdef4b4f26e2972a1b0ce544e1d5.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-wrong-pair/1a81de19e9b42aacf8e31d010a0901a0ab77bdef4b4f26e2972a1b0ce544e1d5.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-wrong-pair/README.txt",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-wrong-pair/README.txt"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-wrong-pair/e1ece8640098a447942b653182febd96449b7c496c3e1ee3f48ccdb4be8beafa.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-wrong-pair/e1ece8640098a447942b653182febd96449b7c496c3e1ee3f48ccdb4be8beafa.json.gz"
+  },
+  {
+   "old": "n17_bb_verifier/tests/fixtures/v3-wrong-pair/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz",
+   "new": "tools/n17_bb_verifier/tests/fixtures/v3-wrong-pair/e77d0e83406c7fa716faa5ec93f7c4b06a145d285dead1606bb5d8ea3be8921d.json.gz"
+  },
+  {
+   "old": "performance/point_verifier_lazy/README.md",
+   "new": "tools/performance/point_verifier_lazy/README.md"
+  },
+  {
+   "old": "performance/point_verifier_lazy/build.py",
+   "new": "tools/performance/point_verifier_lazy/build.py"
+  },
+  {
+   "old": "performance/point_verifier_lazy/lazy-endpoints.patch",
+   "new": "tools/performance/point_verifier_lazy/lazy-endpoints.patch"
+  },
+  {
+   "old": "performance/point_verifier_lazy/verify.py",
+   "new": "tools/performance/point_verifier_lazy/verify.py"
+  },
+  {
+   "old": "performance/runtime/README.md",
+   "new": "tools/performance/runtime/README.md"
+  },
+  {
+   "old": "performance/runtime/runtime_metrics.py",
+   "new": "tools/performance/runtime/runtime_metrics.py"
+  },
+  {
+   "old": "performance/runtime/runtime_solver.py",
+   "new": "tools/performance/runtime/runtime_solver.py"
+  },
+  {
+   "old": "performance/runtime/runtime_wrapper.py",
+   "new": "tools/performance/runtime/runtime_wrapper.py"
+  },
+  {
+   "old": "performance/runtime/test_runtime.py",
+   "new": "tools/performance/runtime/test_runtime.py"
+  },
+  {
+   "old": "performance/runtime/test_working_rows.py",
+   "new": "tools/performance/runtime/test_working_rows.py"
+  },
+  {
+   "old": "performance/runtime/working_rows.py",
+   "new": "tools/performance/runtime/working_rows.py"
+  },
+  {
+   "old": "performance/screen_policy/README.md",
+   "new": "tools/performance/screen_policy/README.md"
+  },
+  {
+   "old": "performance/screen_policy/batch16.py",
+   "new": "tools/performance/screen_policy/batch16.py"
+  },
+  {
+   "old": "performance/screen_policy/parallel_screen.py",
+   "new": "tools/performance/screen_policy/parallel_screen.py"
+  },
+  {
+   "old": "performance/screen_policy/runtime_metrics.py",
+   "new": "tools/performance/screen_policy/runtime_metrics.py"
+  },
+  {
+   "old": "performance/screen_policy/sitecustomize.py",
+   "new": "tools/performance/screen_policy/sitecustomize.py"
+  },
+  {
+   "old": "performance/screen_policy/test_batch16.py",
+   "new": "tools/performance/screen_policy/test_batch16.py"
+  },
+  {
+   "old": "performance/screen_policy/test_witness_batches.py",
+   "new": "tools/performance/screen_policy/test_witness_batches.py"
+  },
+  {
+   "old": "performance/screen_policy/witness_batches.py",
+   "new": "tools/performance/screen_policy/witness_batches.py"
+  },
+  {
+   "old": "performance/verifiers/README.md",
+   "new": "tools/performance/verifiers/README.md"
+  },
+  {
+   "old": "performance/verifiers/axis_cached.cpp",
+   "new": "tools/performance/verifiers/axis_cached.cpp"
+  },
+  {
+   "old": "performance/verifiers/axis_cached.py",
+   "new": "tools/performance/verifiers/axis_cached.py"
+  },
+  {
+   "old": "performance/verifiers/canonical.cpp",
+   "new": "tools/performance/verifiers/canonical.cpp"
+  },
+  {
+   "old": "performance/verifiers/test_axis_cached.py",
+   "new": "tools/performance/verifiers/test_axis_cached.py"
+  },
+  {
+   "old": "pytest.ini",
+   "new": "tools/pytest.ini"
+  },
+  {
+   "old": "requirements.txt",
+   "new": "tools/requirements.txt"
+  },
+  {
+   "old": "solver/PROVENANCE.md",
+   "new": "tools/solver/PROVENANCE.md"
+  },
+  {
+   "old": "solver/advance.py",
+   "new": "tools/solver/advance.py"
+  },
+  {
+   "old": "solver/axis_screen_fast.py",
+   "new": "tools/solver/axis_screen_fast.py"
+  },
+  {
+   "old": "solver/certify.py",
+   "new": "tools/solver/certify.py"
+  },
+  {
+   "old": "solver/fast_geometry.py",
+   "new": "tools/solver/fast_geometry.py"
+  },
+  {
+   "old": "solver/geometry.py",
+   "new": "tools/solver/geometry.py"
+  },
+  {
+   "old": "solver/global_separation_fast.py",
+   "new": "tools/solver/global_separation_fast.py"
+  },
+  {
+   "old": "solver/master.py",
+   "new": "tools/solver/master.py"
+  },
+  {
+   "old": "solver/net_screen_scratch.py",
+   "new": "tools/solver/net_screen_scratch.py"
+  },
+  {
+   "old": "solver/overlap_scratch.py",
+   "new": "tools/solver/overlap_scratch.py"
+  },
+  {
+   "old": "solver/patches/geometry.py.diff",
+   "new": "tools/solver/patches/geometry.py.diff"
+  },
+  {
+   "old": "solver/patches/master.py.diff",
+   "new": "tools/solver/patches/master.py.diff"
+  },
+  {
+   "old": "solver/plot_solution.py",
+   "new": "tools/solver/plot_solution.py"
+  },
+  {
+   "old": "solver/points.py",
+   "new": "tools/solver/points.py"
+  },
+  {
+   "old": "solver/pricing.py",
+   "new": "tools/solver/pricing.py"
+  },
+  {
+   "old": "solver/rectangle_rescue.py",
+   "new": "tools/solver/rectangle_rescue.py"
+  },
+  {
+   "old": "solver/refinement.py",
+   "new": "tools/solver/refinement.py"
+  },
+  {
+   "old": "solver/residual_dump.py",
+   "new": "tools/solver/residual_dump.py"
+  },
+  {
+   "old": "solver/run_verify.py",
+   "new": "tools/solver/run_verify.py"
+  },
+  {
+   "old": "solver/verify.cpp",
+   "new": "tools/solver/verify.cpp"
+  },
+  {
+   "old": "tests/test_smoke.py",
+   "new": "tools/tests/test_smoke.py"
+  },
+  {
+   "old": "transfer/data/ub.json",
+   "new": "tools/transfer/data/ub.json"
+  },
+  {
+   "old": "transfer/l_cap.py",
+   "new": "tools/transfer/l_cap.py"
+  },
+  {
+   "old": "transfer/make_edge.py",
+   "new": "tools/transfer/make_edge.py"
+  },
+  {
+   "old": "transfer/make_transfer.py",
+   "new": "tools/transfer/make_transfer.py"
+  },
+  {
+   "old": "transfer/next_step.py",
+   "new": "tools/transfer/next_step.py"
+  },
+  {
+   "old": "transfer/scale_and_verify.py",
+   "new": "tools/transfer/scale_and_verify.py"
+  }
+ ],
+ "releases": []
+}

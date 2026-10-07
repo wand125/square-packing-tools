@@ -1,3 +1,5 @@
+> **Moved:** this repository is now part of [wand125/square-packing](https://github.com/wand125/square-packing/tree/main/tools) (`tools/`). This copy is archived; every path is mapped in `MOVED.json`, and old links, commits and releases keep working.
+
 # square-packing-tools
 
 Tools for proving **lower bounds** on `s(n)`, the side of the smallest square that holds `n`
